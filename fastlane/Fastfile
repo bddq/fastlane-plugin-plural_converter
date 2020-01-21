@@ -1,0 +1,6 @@
+lane :test do
+  plural_converter(
+    xml_path: "tmp/plural.xml",
+    plist_path: "MyProject/[lang].lproj/Localizable.stringsdict"
+  )
+end

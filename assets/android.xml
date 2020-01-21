@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="songse">
+        <item quantity="few">%d miesiące</item>
+        <item quantity="one">1 miesiąc.</item>
+        <item quantity="other">%d miesiąca</item>
+        <item quantity="many">%d miesięcy</item>
+    </plurals>
+</resources>
