@@ -22,7 +22,7 @@ module Fastlane
 
               format_key = key + '_value'
               dict = { 'NSStringLocalizedFormatKey' => "%#\@#{format_key}@" }
-              items_dict = { 'NSStringFormatSpecTypeKey' => 'NSStringPluralRuleType' }
+              items_dict = { 'NSStringFormatSpecTypeKey' => 'NSStringPluralRuleType', 'NSStringFormatValueTypeKey' => 'd' }
 
               plural.elements.each('item') do |item|
                 quantity_key = item.attributes['quantity']
