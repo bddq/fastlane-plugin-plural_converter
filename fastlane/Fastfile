@@ -1,6 +1,7 @@
 lane :test do
   plural_converter(
     xml_path: "assets/android.xml",
-    plist_path: "assets/Localizable.stringsdict"
+    plist_path: "assets/Localizable.stringsdict",
+    exclude_key_prefix: "android_"
   )
 end
