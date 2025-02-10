@@ -8,6 +8,7 @@ module Fastlane
         if params[:plist_path] && params[:xml_path]
           plist_path = params[:plist_path]
           xml_path = params[:xml_path]
+          key_prefix = params[:exclude_key_prefix]
 
           if File.exist?(xml_path)
             # Create and open empty file.
@@ -19,6 +20,12 @@ module Fastlane
             doc = REXML::Document.new(xml)
             doc.elements.each('resources/plurals') do |plural|
               key = plural.attributes['name']
+
+              # Don't process key with prefix
+              if key_prefix.to_s.length > 0 and key.start_with?(key_prefix.to_s)
+                UI.verbose("Skipping key: #{key}")
+                next
+              end
 
               format_key = key + '_value'
               dict = { 'NSStringLocalizedFormatKey' => "%#\@#{format_key}@" }
@@ -69,6 +76,11 @@ module Fastlane
                                   env_name: "PLURAL_CONVERTER_XML_PATH",
                                description: "File path for the Android XML source file",
                                   optional: false,
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :exclude_key_prefix,
+                                  env_name: "PLURAL_CONVERTER_EXCLUDE_PREFIX",
+                                description: "Prefix used to avoid converting keys",
+                                  optional: true,
                                       type: String)
         ]
       end
