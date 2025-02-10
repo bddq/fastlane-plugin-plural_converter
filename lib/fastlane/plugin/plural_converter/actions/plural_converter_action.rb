@@ -1,10 +1,14 @@
-require 'fastlane/action'
 require_relative '../helper/plural_converter_helper'
 
 module Fastlane
   module Actions
+    require 'fastlane/action'
+
     class PluralConverterAction < Action
       def self.run(params)
+        require 'xcodeproj'
+        require 'fastlane_core/configuration/config_item'
+
         if params[:plist_path] && params[:xml_path]
           plist_path = params[:plist_path]
           xml_path = params[:xml_path]
@@ -22,12 +26,12 @@ module Fastlane
               key = plural.attributes['name']
 
               # Don't process key with prefix
-              if key_prefix.to_s.length > 0 and key.start_with?(key_prefix.to_s)
+              if key_prefix.to_s.empty? == false && key.start_with?(key_prefix.to_s)
                 UI.verbose("Skipping key: #{key}")
                 next
               end
 
-              format_key = key + '_value'
+              format_key = "#{key}_value"
               dict = { 'NSStringLocalizedFormatKey' => "%#\@#{format_key}@" }
               items_dict = { 'NSStringFormatSpecTypeKey' => 'NSStringPluralRuleType', 'NSStringFormatValueTypeKey' => 'd' }
 
@@ -68,20 +72,20 @@ module Fastlane
       def self.available_options
         [
           FastlaneCore::ConfigItem.new(key: :plist_path,
-                                  env_name: "PLURAL_CONVERTER_PLIST_PATH",
-                               description: "File path for the new Plist file",
-                                  optional: false,
-                                      type: String),
+                                       env_name: "PLURAL_CONVERTER_PLIST_PATH",
+                                       description: "File path for the new Plist file",
+                                       optional: false,
+                                       type: String),
           FastlaneCore::ConfigItem.new(key: :xml_path,
-                                  env_name: "PLURAL_CONVERTER_XML_PATH",
-                               description: "File path for the Android XML source file",
-                                  optional: false,
-                                      type: String),
+                                       env_name: "PLURAL_CONVERTER_XML_PATH",
+                                       description: "File path for the Android XML source file",
+                                       optional: false,
+                                       type: String),
           FastlaneCore::ConfigItem.new(key: :exclude_key_prefix,
-                                  env_name: "PLURAL_CONVERTER_EXCLUDE_PREFIX",
-                                description: "Prefix used to avoid converting keys",
-                                  optional: true,
-                                      type: String)
+                                       env_name: "PLURAL_CONVERTER_EXCLUDE_PREFIX",
+                                       description: "Prefix used to avoid converting keys",
+                                       optional: true,
+                                       type: String)
         ]
       end
 
