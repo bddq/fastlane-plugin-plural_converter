@@ -65,6 +65,6 @@ describe Fastlane::Actions::PluralConverterAction do
   it 'has options' do
     available_options = action.available_options
     expect(available_options.kind_of?(Array)).to be true
-    expect(available_options.count).to be 2
+    expect(available_options.count).to be 3
   end
 end
